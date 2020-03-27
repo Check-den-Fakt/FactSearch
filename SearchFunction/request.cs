@@ -6,6 +6,6 @@ namespace SearchFunction
 {
     public class request
     {
-        public string query { get; set; }
+        public string text { get; set; }
     }
 }
