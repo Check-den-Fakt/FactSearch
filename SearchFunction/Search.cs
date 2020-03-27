@@ -36,7 +36,7 @@ namespace SearchFunction
 
             };
 
-            var result = await indexClient.Documents.SearchAsync(requestData.query, parameters);
+            var result = await indexClient.Documents.SearchAsync(requestData.text, parameters);
 
             return new OkObjectResult(result);
         }
@@ -61,7 +61,7 @@ namespace SearchFunction
                 SearchFields = new[] { "text" }
             };
 
-            var result = await indexClient.Documents.SearchAsync(requestData.query, parameters);
+            var result = await indexClient.Documents.SearchAsync(requestData.text, parameters);
 
             return new OkObjectResult(result);
         }
