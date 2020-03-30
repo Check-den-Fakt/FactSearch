@@ -31,12 +31,7 @@ namespace SearchFunction
 
             indexClient = new SearchIndexClient(searchServiceName, indexName, new SearchCredentials(adminApiKey));
 
-            SearchParameters parameters = new SearchParameters()
-            {
-
-            };
-
-            var result = await indexClient.Documents.SearchAsync(requestData.text, parameters);
+            var result = await indexClient.Documents.SearchAsync(requestData.text);
 
             return new OkObjectResult(result);
         }
