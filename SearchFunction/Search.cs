@@ -18,7 +18,7 @@ namespace SearchFunction
 
         [FunctionName("Search")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] string req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] string req,
             ILogger log)
         {
             var requestData = JsonConvert.DeserializeObject<request>(req);
@@ -55,7 +55,7 @@ namespace SearchFunction
 
         [FunctionName("SearchTwitter")]
         public static async Task<IActionResult> RunTwitter(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] string req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] string req,
             ILogger log)
         {
             var requestData = JsonConvert.DeserializeObject<request>(req);
