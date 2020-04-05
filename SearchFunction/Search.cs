@@ -22,6 +22,16 @@ namespace SearchFunction
             ILogger log)
         {
             var requestData = JsonConvert.DeserializeObject<request>(req);
+
+            if (requestData.text == "*")
+            {
+                return new BadRequestResult();
+            }
+            else
+            {
+                requestData.text.Replace("*", " ");
+            }
+
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             string searchServiceName = Environment.GetEnvironmentVariable("SearchUrl");
@@ -29,11 +39,18 @@ namespace SearchFunction
 
             string indexName = "cosmosdb-index";
 
+            SearchParameters parameters = new SearchParameters() 
+            {
+                SearchFields = new[] { "Content" },
+                Filter = $"AmountOfVotes ge {Environment.GetEnvironmentVariable("MinimumVotes")}",
+                Select = new[] { "ApprovedByModerator", "Votes", "AmountOfVotes", "Content"}
+            };
+
             indexClient = new SearchIndexClient(searchServiceName, indexName, new SearchCredentials(adminApiKey));
 
-            var result = await indexClient.Documents.SearchAsync(requestData.text);
-
-            return new OkObjectResult(result);
+            var result = await indexClient.Documents.SearchAsync(requestData.text, parameters);
+    
+            return new OkObjectResult(result.Results);
         }
 
         [FunctionName("SearchTwitter")]
